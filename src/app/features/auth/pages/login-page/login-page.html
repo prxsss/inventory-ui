@@ -1,0 +1,75 @@
+<main class="flex min-h-screen items-center justify-center px-4 py-10 sm:py-16">
+  <div
+    class="dark:bg-surface-800 border-surface-200/80 w-full max-w-xl overflow-hidden rounded-3xl border shadow-[0_24px_80px_-40px_rgba(15,23,42,0.35)] backdrop-blur-sm dark:border-none"
+  >
+    <div>
+      <section class="p-8 sm:p-12">
+        <div class="space-y-6">
+          <div>
+            <h1 class="text-surface-900 dark:text-surface-0 text-3xl font-semibold tracking-tight">
+              Welcome back
+            </h1>
+            <p class="text-surface-500 dark:text-surface-300 mt-2 text-sm">
+              Sign in to access your inventory management system.
+            </p>
+          </div>
+
+          <form class="space-y-5" autocomplete="on">
+            <div class="space-y-2">
+              <label
+                class="text-surface-500 dark:text-surface-300 text-xs font-semibold tracking-[0.2em] uppercase"
+                for="email"
+              >
+                email
+              </label>
+              <input
+                pInputText
+                id="email"
+                name="email"
+                type="email"
+                fluid
+                aria-describedby="email-help"
+              />
+            </div>
+
+            <div class="space-y-2">
+              <div class="flex items-center justify-between">
+                <label
+                  class="text-surface-500 dark:text-surface-300 text-xs font-semibold tracking-[0.2em] uppercase"
+                  for="password"
+                >
+                  Password
+                </label>
+              </div>
+              <p-password
+                inputId="password"
+                name="password"
+                [toggleMask]="true"
+                [feedback]="false"
+                fluid
+              ></p-password>
+            </div>
+
+            <p-button
+              label="Sign in"
+              icon="pi pi-arrow-right"
+              iconPos="right"
+              class="justify-center"
+              fluid
+            ></p-button>
+          </form>
+
+          <div class="flex flex-wrap items-center justify-center gap-2 text-sm">
+            <span class="text-surface-500 dark:text-surface-300">Don't have an account yet?</span>
+            <a
+              routerLink="/auth/register"
+              class="text-primary-500 dark:text-primary-400 cursor-pointer font-semibold hover:underline"
+            >
+              Sign up
+            </a>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+</main>
