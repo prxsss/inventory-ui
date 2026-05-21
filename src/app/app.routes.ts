@@ -1,9 +1,13 @@
 import { Routes } from '@angular/router';
 import { PublicLayout } from './core/layouts/public-layout/public-layout';
+import { ProtectedLayout } from './core/layouts/protected-layout/protected-layout';
+import { authGuard } from './core/guards/auth-guard';
+import { guestGuard } from './core/guards/guest-guard';
 
 export const routes: Routes = [
   {
     path: 'auth',
+    canActivate: [guestGuard],
     component: PublicLayout,
     children: [
       {
@@ -15,6 +19,25 @@ export const routes: Routes = [
         path: 'login',
         loadComponent: () =>
           import('./features/auth/pages/login-page/login-page').then((m) => m.LoginPage),
+      },
+    ],
+  },
+  {
+    path: '',
+    canActivate: [authGuard],
+    component: ProtectedLayout,
+    children: [
+      {
+        path: '',
+        redirectTo: 'dashboard',
+        pathMatch: 'full',
+      },
+      {
+        path: 'dashboard',
+        loadComponent: () =>
+          import('./features/dashboard/pages/dashboard-page/dashboard-page').then(
+            (m) => m.DashboardPage,
+          ),
       },
     ],
   },

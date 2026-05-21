@@ -1,6 +1,6 @@
-<main class="flex min-h-screen items-center justify-center px-4 py-10 sm:py-16">
+<main class="dark:bg-surface-950 flex min-h-screen items-center justify-center px-4 py-10 sm:py-16">
   <div
-    class="dark:bg-surface-800 border-surface-200/80 w-full max-w-xl overflow-hidden rounded-3xl border shadow-[0_24px_80px_-40px_rgba(15,23,42,0.35)] backdrop-blur-sm dark:border-none"
+    class="dark:bg-surface-900 border-surface-200/80 w-full max-w-xl overflow-hidden rounded-3xl border shadow-[0_24px_80px_-40px_rgba(15,23,42,0.35)] backdrop-blur-sm dark:border-none"
   >
     <div>
       <section class="p-8 sm:p-12">
@@ -14,7 +14,12 @@
             </p>
           </div>
 
-          <form class="space-y-5" autocomplete="on">
+          <form
+            [formGroup]="registerForm"
+            (ngSubmit)="onSubmit()"
+            class="space-y-5"
+            autocomplete="on"
+          >
             <div class="space-y-2">
               <label
                 class="text-surface-500 dark:text-surface-300 text-xs font-semibold tracking-[0.2em] uppercase"
@@ -22,7 +27,20 @@
               >
                 Name
               </label>
-              <input pInputText id="name" name="name" type="text" fluid />
+              <input
+                pInputText
+                id="name"
+                name="name"
+                type="text"
+                fluid
+                formControlName="name"
+                [invalid]="!registerForm.value.name && isFormSubmitted()"
+              />
+              @if (!registerForm.value.name && isFormSubmitted()) {
+                <p-message severity="error" variant="simple" size="small"
+                  >Name is required</p-message
+                >
+              }
             </div>
 
             <div class="space-y-2">
@@ -32,7 +50,20 @@
               >
                 Email
               </label>
-              <input pInputText id="email" name="email" type="email" fluid />
+              <input
+                pInputText
+                id="email"
+                name="email"
+                type="email"
+                fluid
+                formControlName="email"
+                [invalid]="!registerForm.value.email && isFormSubmitted()"
+              />
+              @if (!registerForm.value.email && isFormSubmitted()) {
+                <p-message severity="error" variant="simple" size="small"
+                  >Email is required</p-message
+                >
+              }
             </div>
 
             <div class="space-y-2">
@@ -48,15 +79,28 @@
                 [toggleMask]="true"
                 [feedback]="false"
                 fluid
+                formControlName="password"
+                [invalid]="!registerForm.value.password && isFormSubmitted()"
               ></p-password>
+              @if (!registerForm.value.password && isFormSubmitted()) {
+                <p-message severity="error" variant="simple" size="small"
+                  >Password is required</p-message
+                >
+              }
             </div>
 
+            @if (errorMessage()) {
+              <p-message severity="error">{{ errorMessage() }}</p-message>
+            }
+
             <p-button
+              type="submit"
               label="Sign up"
               icon="pi pi-arrow-right"
               iconPos="right"
               class="justify-center"
               fluid
+              [loading]="isLoading()"
             ></p-button>
           </form>
 

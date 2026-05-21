@@ -1,6 +1,6 @@
-<main class="flex min-h-screen items-center justify-center px-4 py-10 sm:py-16">
+<main class="dark:bg-surface-950 flex min-h-screen items-center justify-center px-4 py-10 sm:py-16">
   <div
-    class="dark:bg-surface-800 border-surface-200/80 w-full max-w-xl overflow-hidden rounded-3xl border shadow-[0_24px_80px_-40px_rgba(15,23,42,0.35)] backdrop-blur-sm dark:border-none"
+    class="dark:bg-surface-900 border-surface-200/80 w-full max-w-xl overflow-hidden rounded-3xl border shadow-[0_24px_80px_-40px_rgba(15,23,42,0.35)] backdrop-blur-sm dark:border-none"
   >
     <div>
       <section class="p-8 sm:p-12">
@@ -14,7 +14,7 @@
             </p>
           </div>
 
-          <form class="space-y-5" autocomplete="on">
+          <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="space-y-5" autocomplete="on">
             <div class="space-y-2">
               <label
                 class="text-surface-500 dark:text-surface-300 text-xs font-semibold tracking-[0.2em] uppercase"
@@ -29,7 +29,14 @@
                 type="email"
                 fluid
                 aria-describedby="email-help"
+                formControlName="email"
+                [invalid]="!loginForm.value.email && isFormSubmitted()"
               />
+              @if (!loginForm.value.email && isFormSubmitted()) {
+                <p-message severity="error" variant="simple" size="small"
+                  >Email is required</p-message
+                >
+              }
             </div>
 
             <div class="space-y-2">
@@ -47,15 +54,28 @@
                 [toggleMask]="true"
                 [feedback]="false"
                 fluid
+                formControlName="password"
+                [invalid]="!loginForm.value.password && isFormSubmitted()"
               ></p-password>
+              @if (!loginForm.value.password && isFormSubmitted()) {
+                <p-message severity="error" variant="simple" size="small"
+                  >Password is required</p-message
+                >
+              }
             </div>
 
+            @if (errorMessage()) {
+              <p-message severity="error">{{ errorMessage() }}</p-message>
+            }
+
             <p-button
+              type="submit"
               label="Sign in"
               icon="pi pi-arrow-right"
               iconPos="right"
               class="justify-center"
               fluid
+              [loading]="isLoading()"
             ></p-button>
           </form>
 

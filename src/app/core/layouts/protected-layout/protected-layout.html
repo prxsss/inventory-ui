@@ -1,0 +1,89 @@
+<div class="dark:bg-surface-950 flex h-screen w-full overflow-hidden">
+  <!-- STATIC SIDEBAR -->
+  <div
+    [class]="isCollapsed() ? 'w-20' : 'w-64'"
+    class="dark:bg-surface-900 border-surface-200 dark:border-surface-800 flex h-full flex-col justify-between border-r text-white transition-all duration-300 ease-in-out"
+  >
+    <div>
+      <!-- Header / Logo Area -->
+      <div
+        class="border-surface-200 dark:border-surface-800 flex h-16 items-center justify-between border-b p-4"
+      >
+        @if (!isCollapsed()) {
+          <span class="text-primary text-lg font-bold transition-opacity duration-200"> INV </span>
+        }
+        <!-- PrimeNG Button สำหรับกดสลับสถานะ -->
+        <p-button
+          [icon]="isCollapsed() ? 'pi pi-chevron-right' : 'pi pi-chevron-left'"
+          [text]="true"
+          severity="secondary"
+          (onClick)="toggleSidebar()"
+        >
+        </p-button>
+      </div>
+
+      <!-- Navigation Menu Items -->
+      <nav class="mt-4 space-y-1 px-2">
+        @for (item of menuItems; track $index) {
+          <a
+            [routerLink]="item.routerLink"
+            routerLinkActive
+            #rla="routerLinkActive"
+            [routerLinkActiveOptions]="{ exact: false }"
+            [pTooltip]="item.label"
+            showDelay="150"
+            pRipple
+            class="flex cursor-pointer items-center overflow-hidden rounded-lg p-3 transition-colors"
+            [class]="
+              rla.isActive
+                ? 'text-primary-500 dark:text-primary-400 bg-surface-50 dark:bg-surface-800'
+                : 'text-surface-500 dark:text-surface-300 hover:bg-surface-50 dark:hover:bg-surface-800'
+            "
+          >
+            <!-- Icon Menu -->
+            <div class="flex min-w-6 items-center justify-center">
+              <i [class]="item.icon" class="text-xl"></i>
+            </div>
+
+            <!-- Menu Text (Display only when Sidebar is Expanded) -->
+            @if (!isCollapsed()) {
+              <span class="ml-3 font-medium whitespace-nowrap transition-opacity duration-200">
+                {{ item.label }}
+              </span>
+            }
+          </a>
+        }
+      </nav>
+    </div>
+
+    <!-- Footer Area -->
+    <div
+      pTooltip="Log Out"
+      showDelay="150"
+      class="border-surface-200 dark:border-surface-800 hover:bg-surface-50 dark:hover:bg-surface-800 flex cursor-pointer items-center space-x-3 border-t p-4 transition-colors"
+      (click)="logout()"
+    >
+      <i class="pi pi-sign-out text-primary-500 dark:text-primary-400 text-lg"></i>
+      @if (!isCollapsed()) {
+        <span class="text-surface-800 dark:text-surface-200 text-sm font-medium whitespace-nowrap"
+          >Log Out</span
+        >
+      }
+    </div>
+  </div>
+
+  <!-- MAIN CONTENT AREA -->
+  <div class="flex h-full flex-1 flex-col overflow-y-auto">
+    <!-- Top Navbar -->
+    <header
+      class="dark:bg-surface-900 border-surface-200 dark:border-surface-800 flex h-16 items-center border-b bg-white px-6"
+    >
+      <h1 class="text-xl font-semibold">Main Content Header</h1>
+    </header>
+
+    <!-- Page Content Container -->
+    <main class="h-full flex-1 p-6">
+      <router-outlet></router-outlet>
+    </main>
+  </div>
+</div>
