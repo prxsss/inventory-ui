@@ -7,9 +7,10 @@ import { MessageModule } from 'primeng/message';
 import { PasswordModule } from 'primeng/password';
 import { InputTextModule } from 'primeng/inputtext';
 
-import { Auth } from '../../../../core/services/auth';
-import { ApiErrorResponse } from '../../../../shared/models/api/api-response';
-import { LoginRequest } from '../../../../shared/models/auth/login-request';
+import { AuthService } from '../../services/auth-service';
+import { TokenService } from '../../../../core/auth/token-service';
+import { ApiErrorResponse } from '../../../../shared/types/api/api-response';
+import { LoginRequest } from '../../types/login-request';
 
 @Component({
   selector: 'app-login-page',
@@ -24,8 +25,9 @@ import { LoginRequest } from '../../../../shared/models/auth/login-request';
   templateUrl: './login-page.html',
 })
 export class LoginPage {
-  private auth = inject(Auth);
   private router = inject(Router);
+  private authService = inject(AuthService);
+  private tokenService = inject(TokenService);
 
   loginForm = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
@@ -51,11 +53,11 @@ export class LoginPage {
       password: this.loginForm.value.password!,
     };
 
-    this.auth.login(payload).subscribe({
-      next: (response: any) => {
+    this.authService.login(payload).subscribe({
+      next: (response) => {
         console.log('Login successful:', response);
 
-        localStorage.setItem('token', response.data.token);
+        this.tokenService.setToken(response.data.token);
 
         this.isLoading.set(false);
         this.router.navigate(['/dashboard']);

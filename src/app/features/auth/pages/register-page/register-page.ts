@@ -7,9 +7,10 @@ import { MessageModule } from 'primeng/message';
 import { PasswordModule } from 'primeng/password';
 import { InputTextModule } from 'primeng/inputtext';
 
-import { Auth } from '../../../../core/services/auth';
-import { ApiErrorResponse } from '../../../../shared/models/api/api-response';
-import { RegisterRequest } from '../../../../shared/models/auth/register-request';
+import { AuthService } from '../../services/auth-service';
+import { TokenService } from '../../../../core/auth/token-service';
+import { ApiErrorResponse } from '../../../../shared/types/api/api-response';
+import { RegisterRequest } from '../../types/register-request';
 
 @Component({
   selector: 'app-register-page',
@@ -24,8 +25,9 @@ import { RegisterRequest } from '../../../../shared/models/auth/register-request
   templateUrl: './register-page.html',
 })
 export class RegisterPage {
-  private auth = inject(Auth);
   private router = inject(Router);
+  private authService = inject(AuthService);
+  private tokenService = inject(TokenService);
 
   registerForm = new FormGroup({
     name: new FormControl('', [Validators.required]),
@@ -53,11 +55,11 @@ export class RegisterPage {
       password: this.registerForm.value.password!,
     };
 
-    this.auth.register(payload).subscribe({
-      next: (response: any) => {
+    this.authService.register(payload).subscribe({
+      next: (response) => {
         console.log('Registration successful:', response);
 
-        localStorage.setItem('token', response.data.token);
+        this.tokenService.setToken(response.data.token);
 
         this.isLoading.set(false);
         this.router.navigate(['/dashboard']);

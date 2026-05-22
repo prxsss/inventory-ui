@@ -1,6 +1,5 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import {
-  ActivatedRoute,
   Router,
   RouterLink,
   RouterLinkActive,
@@ -14,7 +13,7 @@ import { RippleModule } from 'primeng/ripple';
 import { TooltipModule } from 'primeng/tooltip';
 import { filter } from 'rxjs';
 
-import { Auth } from '../../services/auth';
+import { TokenService } from '../../auth/token-service';
 
 @Component({
   selector: 'app-protected-layout',
@@ -32,9 +31,8 @@ import { Auth } from '../../services/auth';
 export class ProtectedLayout {
   isCollapsed = signal(false);
   currentPageName = signal('Dashboard');
-  private auth = inject(Auth);
+  private tokenService = inject(TokenService);
   private router = inject(Router);
-  private activatedRoute = inject(ActivatedRoute);
 
   private pageNameMap: { [key: string]: string } = {
     '/dashboard': 'Dashboard',
@@ -66,7 +64,7 @@ export class ProtectedLayout {
   }
 
   logout() {
-    this.auth.logout();
+    this.tokenService.removeToken();
     this.router.navigate(['/auth/login']);
   }
 }

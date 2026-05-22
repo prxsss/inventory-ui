@@ -1,8 +1,8 @@
 import { Component, OnInit, computed, inject, signal } from '@angular/core';
 import { CardModule } from 'primeng/card';
 
-import { Dashboard } from '../../services/dashboard';
-import { InventorySummary } from '../../../../shared/models/dashboard/inventory-summary';
+import { DashboardService } from '../../services/dashboard-service';
+import { InventorySummary } from '../../types/inventory-summary';
 
 @Component({
   selector: 'app-dashboard-page',
@@ -10,7 +10,7 @@ import { InventorySummary } from '../../../../shared/models/dashboard/inventory-
   templateUrl: './dashboard-page.html',
 })
 export class DashboardPage implements OnInit {
-  private dashboard = inject(Dashboard);
+  private dashboardService = inject(DashboardService);
 
   stats = signal<InventorySummary>({
     totalProducts: 0,
@@ -56,7 +56,7 @@ export class DashboardPage implements OnInit {
   }
 
   getSummary() {
-    this.dashboard.getSummary().subscribe({
+    this.dashboardService.getSummary().subscribe({
       next: (response) => {
         console.log('Summary data:', response);
 

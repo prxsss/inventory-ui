@@ -1,14 +1,14 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
-import { ApiResponse } from '../../../shared/models/api/api-response';
-import { InventorySummary } from '../../../shared/models/dashboard/inventory-summary';
+import { ApiResponse } from '../../../shared/types/api/api-response';
+import { InventorySummary } from '../types/inventory-summary';
 import { environment } from '../../../../environments/environment.development';
 
 @Injectable({
   providedIn: 'root',
 })
-export class Dashboard {
+export class DashboardService {
   private http = inject(HttpClient);
 
   getSummary() {
