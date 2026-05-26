@@ -1,0 +1,108 @@
+<div class="space-y-6">
+  <p-toast />
+  <p-confirmDialog />
+
+  <div class="flex items-center justify-between">
+    <h1 class="text-2xl font-semibold">Categories</h1>
+    <p-button label="Add" icon="pi pi-plus" severity="primary" (onClick)="showAddDialog()" />
+  </div>
+
+  <p-iconField>
+    <p-inputIcon class="pi pi-search" />
+    <input
+      pInputText
+      type="search"
+      placeholder="Search categories..."
+      [formControl]="searchControl"
+      class="w-full sm:w-80"
+    />
+  </p-iconField>
+
+  <p-card>
+    <p-table
+      [value]="categories()"
+      [lazy]="true"
+      (onLazyLoad)="onLazyLoad($event)"
+      [paginator]="true"
+      [first]="first()"
+      [rows]="rows()"
+      [totalRecords]="totalRecords()"
+      [tableStyle]="{ 'min-width': '40rem' }"
+      [loading]="loading()"
+      [rowsPerPageOptions]="[5, 10, 20, 25]"
+    >
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Name</th>
+          <th>Created</th>
+          <th style="width: 10rem">Actions</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-category>
+        <tr>
+          <td class="font-medium">{{ category.name }}</td>
+          <td>
+            <p-tag [value]="(category.createdAt | date) ?? ''" severity="info" />
+          </td>
+          <td>
+            <div class="flex gap-2">
+              <p-button
+                icon="pi pi-pencil"
+                severity="secondary"
+                variant="text"
+                (onClick)="showEditDialog(category)"
+                pTooltip="Edit"
+              />
+              <p-button
+                icon="pi pi-trash"
+                severity="danger"
+                variant="text"
+                (onClick)="confirmDelete(category)"
+                pTooltip="Delete"
+              />
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td colspan="3" class="text-muted-color py-8 text-center">No categories found.</td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </p-card>
+  <!-- } -->
+
+  <p-dialog
+    [(visible)]="dialogVisible"
+    [header]="dialogTitle()"
+    [modal]="true"
+    [style]="{ width: '25rem' }"
+    (onHide)="categoryName.set('')"
+  >
+    <div class="flex flex-col gap-4 pt-4">
+      <input
+        pInputText
+        type="text"
+        placeholder="Category name"
+        [(ngModel)]="categoryName"
+        class="w-full"
+        (keyup.enter)="saveCategory()"
+      />
+    </div>
+    <div class="flex justify-end gap-2 pt-4">
+      <p-button
+        label="Cancel"
+        severity="secondary"
+        variant="outlined"
+        (onClick)="dialogVisible.set(false)"
+      />
+      <p-button
+        label="Save"
+        severity="primary"
+        [disabled]="!categoryName().trim()"
+        (onClick)="saveCategory()"
+      />
+    </div>
+  </p-dialog>
+</div>
