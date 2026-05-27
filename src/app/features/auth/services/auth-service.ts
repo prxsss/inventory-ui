@@ -6,6 +6,7 @@ import { AuthResponse } from '../types/auth-response';
 import { LoginRequest } from '../types/login-request';
 import { RegisterRequest } from '../types/register-request';
 import { environment } from '../../../../environments/environment.development';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -13,11 +14,11 @@ import { environment } from '../../../../environments/environment.development';
 export class AuthService {
   private http = inject(HttpClient);
 
-  login(payload: LoginRequest) {
+  login(payload: LoginRequest): Observable<ApiResponse<AuthResponse>> {
     return this.http.post<ApiResponse<AuthResponse>>(`${environment.apiUrl}/auth/login`, payload);
   }
 
-  register(payload: RegisterRequest) {
+  register(payload: RegisterRequest): Observable<ApiResponse<AuthResponse>> {
     return this.http.post<ApiResponse<AuthResponse>>(
       `${environment.apiUrl}/auth/register`,
       payload,
