@@ -31,14 +31,14 @@ import { Category } from '../../types/category';
 import { DataTable } from '../../../../shared/components/data-table/data-table';
 import { TableColumn } from '../../../../shared/types/table-column';
 
+import { CategoryFormDialogComponent } from '../../components/category-form-dialog/category-form-dialog';
+
 @Component({
   selector: 'app-categories-page',
   imports: [
-    FormsModule,
     ReactiveFormsModule,
     ButtonModule,
     ConfirmDialogModule,
-    DialogModule,
     IconFieldModule,
     InputIconModule,
     InputTextModule,
@@ -46,6 +46,7 @@ import { TableColumn } from '../../../../shared/types/table-column';
     TooltipModule,
     CardModule,
     DataTable,
+    CategoryFormDialogComponent,
   ],
   providers: [ConfirmationService, MessageService],
   templateUrl: './categories-page.html',
@@ -78,7 +79,6 @@ export class CategoriesPage implements OnInit {
   dialogVisible = signal(false);
   isEditMode = signal(false);
   selectedCategory = signal<Category | null>(null);
-  categoryName = signal('');
 
   dialogTitle = computed(() => (this.isEditMode() ? 'Edit Category' : 'Add Category'));
 
@@ -168,19 +168,16 @@ export class CategoriesPage implements OnInit {
   showAddDialog(): void {
     this.isEditMode.set(false);
     this.selectedCategory.set(null);
-    this.categoryName.set('');
     this.dialogVisible.set(true);
   }
 
   showEditDialog(category: Category): void {
     this.isEditMode.set(true);
     this.selectedCategory.set(category);
-    this.categoryName.set(category.name);
     this.dialogVisible.set(true);
   }
 
-  saveCategory(): void {
-    const name = this.categoryName().trim();
+  saveCategory(name: string): void {
     if (!name) return;
 
     if (this.isEditMode()) {

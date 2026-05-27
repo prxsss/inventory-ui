@@ -1,0 +1,32 @@
+<p-dialog
+  [(visible)]="visible"
+  [header]="dialogTitle()"
+  [modal]="true"
+  [style]="{ width: '25rem' }"
+  (onHide)="handleHide()"
+>
+  <div class="flex flex-col gap-4 pt-4">
+    <input
+      pInputText
+      type="text"
+      placeholder="Category name"
+      [(ngModel)]="categoryName"
+      class="w-full"
+      (keyup.enter)="handleSave()"
+    />
+  </div>
+  <div class="flex justify-end gap-2 pt-4">
+    <p-button
+      label="Cancel"
+      severity="secondary"
+      variant="outlined"
+      (onClick)="visible.set(false)"
+    />
+    <p-button
+      label="Save"
+      severity="primary"
+      [disabled]="!categoryName().trim()"
+      (onClick)="handleSave()"
+    />
+  </div>
+</p-dialog>

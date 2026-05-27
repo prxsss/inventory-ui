@@ -32,36 +32,10 @@
     />
   </p-card>
 
-  <p-dialog
+  <app-category-form-dialog
     [(visible)]="dialogVisible"
-    [header]="dialogTitle()"
-    [modal]="true"
-    [style]="{ width: '25rem' }"
-    (onHide)="categoryName.set('')"
-  >
-    <div class="flex flex-col gap-4 pt-4">
-      <input
-        pInputText
-        type="text"
-        placeholder="Category name"
-        [(ngModel)]="categoryName"
-        class="w-full"
-        (keyup.enter)="saveCategory()"
-      />
-    </div>
-    <div class="flex justify-end gap-2 pt-4">
-      <p-button
-        label="Cancel"
-        severity="secondary"
-        variant="outlined"
-        (onClick)="dialogVisible.set(false)"
-      />
-      <p-button
-        label="Save"
-        severity="primary"
-        [disabled]="!categoryName().trim()"
-        (onClick)="saveCategory()"
-      />
-    </div>
-  </p-dialog>
+    [dialogTitle]="dialogTitle()"
+    [initialName]="selectedCategory()?.name ?? ''"
+    (onSave)="saveCategory($event)"
+  />
 </div>
