@@ -28,11 +28,12 @@ import { TooltipModule } from 'primeng/tooltip';
 
 import { CategoriesService } from '../../services/categories-service';
 import { Category } from '../../types/category';
+import { DataTable } from '../../../../shared/components/data-table/data-table';
+import { TableColumn } from '../../../../shared/types/table-column';
 
 @Component({
   selector: 'app-categories-page',
   imports: [
-    DatePipe,
     FormsModule,
     ReactiveFormsModule,
     ButtonModule,
@@ -41,12 +42,10 @@ import { Category } from '../../types/category';
     IconFieldModule,
     InputIconModule,
     InputTextModule,
-    SkeletonModule,
-    TableModule,
-    TagModule,
     ToastModule,
     TooltipModule,
     CardModule,
+    DataTable,
   ],
   providers: [ConfirmationService, MessageService],
   templateUrl: './categories-page.html',
@@ -59,6 +58,10 @@ export class CategoriesPage implements OnInit {
   // Inject DestroyRef to manage automatic unsubscription of observables
   private destroyRef = inject(DestroyRef);
 
+  tableColumns: TableColumn[] = [
+    { field: 'name', header: 'Name', type: 'text' },
+    { field: 'createdAt', header: 'Created', type: 'date' },
+  ];
   categories = signal<Category[]>([]);
   searchControl = new FormControl('');
 
