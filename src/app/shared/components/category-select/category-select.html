@@ -1,0 +1,26 @@
+@if (loading()) {
+  <p-skeleton height="2.875rem" />
+} @else if (error()) {
+  <div class="flex items-center gap-2">
+    <span class="text-sm text-red-500">Failed to load categories.</span>
+    <p-button
+      icon="pi pi-refresh"
+      severity="secondary"
+      variant="text"
+      size="small"
+      (onClick)="retry()"
+    />
+  </div>
+} @else {
+  <p-select
+    [formControl]="control()"
+    [options]="options()"
+    optionLabel="name"
+    optionValue="id"
+    [placeholder]="placeholder()"
+    [filter]="filter()"
+    [fluid]="fluid()"
+    [showClear]="true"
+    [invalid]="invalid()"
+  />
+}
