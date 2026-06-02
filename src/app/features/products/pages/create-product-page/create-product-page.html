@@ -1,0 +1,167 @@
+<div class="space-y-6">
+  <app-loading-modal [visible]="loading()" message="Creating product..." />
+
+  <div>
+    <h1 class="text-2xl font-semibold">Create Product</h1>
+  </div>
+
+  <p-card class="@container">
+    <form [formGroup]="productForm" (ngSubmit)="onSubmit()" class="space-y-6">
+      <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+        <!-- SKU -->
+        <div class="flex flex-col gap-2">
+          <label
+            for="sku"
+            class="text-surface-500 dark:text-surface-300 text-xs font-semibold tracking-widest"
+            >SKU</label
+          >
+          <input
+            type="text"
+            formControlName="sku"
+            id="sku"
+            pInputText
+            fluid
+            [invalid]="isInvalid('sku')"
+          />
+          @if (isInvalid('sku')) {
+            <p-message severity="error" size="small" variant="simple">SKU is required.</p-message>
+          }
+        </div>
+
+        <!-- Product Name -->
+        <div class="flex flex-col gap-2">
+          <label
+            for="name"
+            class="text-surface-500 dark:text-surface-300 text-xs font-semibold tracking-widest"
+            >Product Name</label
+          >
+          <input
+            type="text"
+            formControlName="name"
+            id="name"
+            pInputText
+            fluid
+            [invalid]="isInvalid('name')"
+          />
+          @if (isInvalid('name')) {
+            <p-message severity="error" size="small" variant="simple">Name is required.</p-message>
+          }
+        </div>
+      </div>
+
+      <!-- Description -->
+      <div class="flex flex-col gap-2">
+        <label
+          for="description"
+          class="text-surface-500 dark:text-surface-300 text-xs font-semibold tracking-widest"
+          >Description</label
+        >
+        <textarea
+          formControlName="description"
+          id="description"
+          pInputTextarea
+          fluid
+          rows="4"
+        ></textarea>
+      </div>
+      <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+        <!-- Category -->
+        <div class="flex flex-col gap-2">
+          <label
+            for="category"
+            class="text-surface-500 dark:text-surface-300 text-xs font-semibold tracking-widest"
+            >Category</label
+          >
+          <app-category-select
+            [control]="productForm.controls.categoryId"
+            id="category"
+            placeholder="Select a category"
+            [filter]="false"
+            [invalid]="isInvalid('categoryId')"
+          />
+          @if (isInvalid('categoryId')) {
+            <p-message severity="error" size="small" variant="simple"
+              >Category is required.</p-message
+            >
+          }
+        </div>
+
+        <!-- Price -->
+        <div class="flex flex-col gap-2">
+          <label
+            for="price"
+            class="text-surface-500 dark:text-surface-300 text-xs font-semibold tracking-widest"
+            >Price</label
+          >
+          <p-inputNumber id="price" formControlName="price" mode="currency" currency="THB" fluid />
+          @if (isInvalid('price')) {
+            <p-message severity="error" size="small" variant="simple"
+              >Price is required and must be a positive number.</p-message
+            >
+          }
+        </div>
+      </div>
+      <div
+        class="bg-surface-100 dark:bg-surface-800 border-surface-200 dark:border-surface-700 rounded-[0.625rem] border p-4"
+      >
+        <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+          <!-- Current Quantity -->
+          <div class="flex flex-col gap-2">
+            <label
+              for="quantity"
+              class="text-surface-500 dark:text-surface-300 text-xs font-semibold tracking-widest"
+              >Current Quantity</label
+            >
+            <input
+              type="number"
+              id="quantity"
+              formControlName="quantity"
+              pInputText
+              fluid
+              [min]="0"
+              [invalid]="isInvalid('quantity')"
+            />
+            @if (isInvalid('quantity')) {
+              <p-message severity="error" size="small" variant="simple"
+                >Current Quantity must be 0 or greater.</p-message
+              >
+            }
+          </div>
+
+          <!-- Low Stock Threshold -->
+          <div class="flex flex-col gap-2">
+            <label
+              for="lowStockThreshold"
+              class="text-surface-500 dark:text-surface-300 text-xs font-semibold tracking-widest"
+              >Low Stock Threshold</label
+            >
+            <input
+              type="number"
+              id="lowStockThreshold"
+              formControlName="lowStockThreshold"
+              pInputText
+              fluid
+              [min]="0"
+              [invalid]="isInvalid('lowStockThreshold')"
+            />
+            @if (isInvalid('lowStockThreshold')) {
+              <p-message severity="error" size="small" variant="simple"
+                >Low Stock Threshold must be 0 or greater.</p-message
+              >
+            }
+          </div>
+        </div>
+      </div>
+      <div class="flex justify-end">
+        <p-button
+          routerLink="/products"
+          type="button"
+          label="Cancel"
+          class="mr-2"
+          severity="secondary"
+        />
+        <p-button type="submit" label="Save" severity="primary" [disabled]="loading()" />
+      </div>
+    </form>
+  </p-card>
+</div>

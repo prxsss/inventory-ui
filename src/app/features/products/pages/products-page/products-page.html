@@ -1,0 +1,48 @@
+<div class="space-y-6">
+  <p-toast />
+  <p-confirmDialog />
+
+  <div class="flex items-center justify-between">
+    <h1 class="text-2xl font-semibold">Products</h1>
+    <p-button label="Add" icon="pi pi-plus" severity="primary" (onClick)="navigateToCreate()" />
+  </div>
+
+  <p-iconField>
+    <p-inputIcon class="pi pi-search" />
+    <input
+      pInputText
+      type="search"
+      placeholder="Search products..."
+      [formControl]="searchControl"
+      class="w-full sm:w-80"
+    />
+  </p-iconField>
+
+  <p-card>
+    <app-data-table
+      [columns]="tableColumns"
+      [data]="products()"
+      [first]="first()"
+      [rows]="rows()"
+      [totalRecords]="totalRecords()"
+      [sortField]="sortField()"
+      [sortOrder]="sortOrder()"
+      [loading]="loading()"
+      (onLazyLoad)="onLazyLoad($event)"
+      (onEdit)="navigateToEdit($event)"
+      (onDelete)="confirmDelete($event)"
+    >
+      <ng-template #customCell let-rowData let-col="column">
+        @if (col.field === 'status') {
+          @if (rowData.quantity === 0) {
+            <p-tag value="Out of Stock" severity="danger" />
+          } @else if (rowData.quantity <= rowData.lowStockThreshold) {
+            <p-tag value="Low Stock" severity="warn" />
+          } @else {
+            <p-tag value="In Stock" severity="success" />
+          }
+        }
+      </ng-template>
+    </app-data-table>
+  </p-card>
+</div>
