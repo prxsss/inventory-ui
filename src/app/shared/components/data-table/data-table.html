@@ -9,12 +9,32 @@
   [totalRecords]="totalRecords()"
   [loading]="loading()"
   [rowsPerPageOptions]="rowsPerPageOptions()"
+  [sortField]="sortField()"
+  [sortOrder]="sortOrder() ?? 0"
   [tableStyle]="{ 'min-width': '40rem' }"
 >
   <ng-template pTemplate="header" let-columns>
     <tr>
       @for (col of columns; track col.field) {
-        <th>{{ col.header }}</th>
+        @if (col.sortable) {
+          <th
+            [pSortableColumn]="col.field"
+            [class.text-left]="!col.align || col.align === 'left'"
+            [class.text-center]="col.align === 'center'"
+            [class.text-right]="col.align === 'right'"
+          >
+            {{ col.header }}
+            <p-sortIcon [field]="col.field"></p-sortIcon>
+          </th>
+        } @else {
+          <th
+            [class.text-left]="!col.align || col.align === 'left'"
+            [class.text-center]="col.align === 'center'"
+            [class.text-right]="col.align === 'right'"
+          >
+            {{ col.header }}
+          </th>
+        }
       }
       <th style="width: 10rem">Actions</th>
     </tr>
@@ -22,8 +42,15 @@
   <ng-template pTemplate="body" let-rowData>
     <tr>
       @for (col of columns(); track col.field) {
-        <td>
+        <td
+          [class.text-left]="!col.align || col.align === 'left'"
+          [class.text-center]="col.align === 'center'"
+          [class.text-right]="col.align === 'right'"
+        >
           @switch (col.type) {
+            @case ('number') {
+              <span class="font-medium">{{ rowData[col.field] | number: '1.2-2' }}</span>
+            }
             @case ('date') {
               <p-tag [value]="(rowData[col.field] | date) ?? ''" severity="info" />
             }
@@ -36,7 +63,7 @@
               />
             }
             @default {
-              <td class="font-medium">{{ rowData[col.field] }}</td>
+              <span class="font-medium">{{ rowData[col.field] }}</span>
             }
           }
         </td>

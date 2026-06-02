@@ -1,4 +1,4 @@
-import { DatePipe, NgTemplateOutlet } from '@angular/common';
+import { DatePipe, DecimalPipe, NgTemplateOutlet } from '@angular/common';
 import { Component, contentChild, input, output, TemplateRef } from '@angular/core';
 import { TableColumn } from '../../types/table-column';
 import { TableLazyLoadEvent, TableModule } from 'primeng/table';
@@ -7,7 +7,7 @@ import { TagModule } from 'primeng/tag';
 
 @Component({
   selector: 'app-data-table',
-  imports: [DatePipe, ButtonModule, TableModule, TagModule, NgTemplateOutlet],
+  imports: [DatePipe, DecimalPipe, ButtonModule, TableModule, TagModule, NgTemplateOutlet],
   templateUrl: './data-table.html',
 })
 export class DataTable<T> {
@@ -24,6 +24,10 @@ export class DataTable<T> {
   first = input<number>(0);
   rows = input<number>(10);
   rowsPerPageOptions = input<number[]>([5, 10, 20, 25]);
+
+  // Sorting State
+  sortField = input<string | undefined>(undefined);
+  sortOrder = input<number | undefined>(undefined);
 
   // Events (Outputs)
   onLazyLoad = output<TableLazyLoadEvent>();
