@@ -1,11 +1,11 @@
 import { Component, OnInit, inject, signal, computed, DestroyRef } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { DatePipe } from '@angular/common';
 import { merge, of, Subject } from 'rxjs';
 import {
   catchError,
   debounceTime,
   distinctUntilChanged,
+  finalize,
   retry,
   startWith,
   switchMap,
@@ -76,6 +76,7 @@ export class CategoriesPage implements OnInit {
   private refreshTrigger$ = new Subject<void>();
 
   loading = signal(false);
+  deleting = signal(false);
   dialogVisible = signal(false);
   isEditMode = signal(false);
   selectedCategory = signal<Category | null>(null);
@@ -237,7 +238,12 @@ export class CategoriesPage implements OnInit {
         severity: 'secondary',
         outlined: true,
       },
-      acceptLabel: 'Yes',
+      acceptButtonProps: {
+        label: 'Yes',
+        severity: 'danger',
+        loading: this.deleting(),
+        disabled: this.deleting(),
+      },
       accept: () => {
         this.deleteCategory(category.id);
       },
@@ -245,24 +251,29 @@ export class CategoriesPage implements OnInit {
   }
 
   private deleteCategory(id: string): void {
-    this.categoriesService.deleteCategory(id).subscribe({
-      next: (response) => {
-        if (response.success) {
+    this.deleting.set(true);
+
+    this.categoriesService
+      .deleteCategory(id)
+      .pipe(finalize(() => this.deleting.set(false)))
+      .subscribe({
+        next: (response) => {
+          if (response.success) {
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Success',
+              detail: 'Category deleted',
+            });
+            this.refreshCategories();
+          }
+        },
+        error: () => {
           this.messageService.add({
-            severity: 'success',
-            summary: 'Success',
-            detail: 'Category deleted',
+            severity: 'error',
+            summary: 'Error',
+            detail: 'Failed to delete category',
           });
-          this.refreshCategories();
-        }
-      },
-      error: () => {
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Error',
-          detail: 'Failed to delete category',
-        });
-      },
-    });
+        },
+      });
   }
 }
