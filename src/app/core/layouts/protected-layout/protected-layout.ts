@@ -59,8 +59,15 @@ export class ProtectedLayout implements OnInit {
   constructor() {
     this.router.events
       .pipe(filter((event) => event instanceof NavigationEnd))
-      .subscribe((event: any) => {
-        const pageName = this.pageNameMap[event.url] || 'Dashboard';
+      .subscribe((event) => {
+        const currentUrl = event.urlAfterRedirects || event.url;
+
+        // Find the first key in the pageNameMap that matches the start of the current URL
+        const matchedKey = Object.keys(this.pageNameMap).find((key) => currentUrl.startsWith(key));
+
+        // If a match is found, use the corresponding page name; otherwise, default to 'Dashboard'
+        const pageName = matchedKey ? this.pageNameMap[matchedKey] : 'Dashboard';
+
         this.currentPageName.set(pageName);
       });
   }
