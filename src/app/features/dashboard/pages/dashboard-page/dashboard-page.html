@@ -1,5 +1,5 @@
-<div class="space-y-6">
-  <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+<div class="@container space-y-6">
+  <div class="grid grid-cols-1 gap-6 @xl:grid-cols-2 @6xl:grid-cols-4">
     @for (card of statCards(); track card.label) {
       <p-card class="shadow-sm" [pt]="cardPt">
         <div class="flex items-center gap-3">
@@ -19,7 +19,7 @@
   </div>
 
   <div class="grid grid-cols-8 gap-6">
-    <p-card class="col-span-5">
+    <p-card class="col-span-8 @5xl:col-span-5">
       <div class="flex items-center justify-between">
         <h2 class="text-lg font-semibold">Low Stock Products</h2>
         <a
@@ -52,7 +52,7 @@
       </p-table>
     </p-card>
 
-    <p-card class="col-span-3">
+    <p-card class="col-span-8 @5xl:col-span-3">
       <div class="flex items-center justify-between">
         <h2 class="text-lg font-semibold">Recent Transactions</h2>
         <a
@@ -62,7 +62,13 @@
           View All
         </a>
       </div>
-      <p-table [value]="recentTransactions()" stripedRows [tableStyle]="{ 'min-width': '20rem' }">
+      <p-table
+        [value]="recentTransactions()"
+        [scrollable]="true"
+        scrollHeight="320px"
+        stripedRows
+        [tableStyle]="{ 'min-width': '20rem' }"
+      >
         <ng-template pTemplate="header">
           <tr>
             <th>Product</th>

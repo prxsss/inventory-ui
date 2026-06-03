@@ -93,7 +93,7 @@ export class DashboardPage implements OnInit {
   }
 
   getRecentTransactions() {
-    this.stocksService.getHistory({ page: 0, size: 5 }).subscribe({
+    this.stocksService.getHistory({ page: 0, size: 10 }).subscribe({
       next: (response) => {
         if (response.success && response.data) {
           this.recentTransactions.set(response.data.items);
