@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import {
   Router,
   RouterLink,
@@ -9,16 +9,20 @@ import {
 } from '@angular/router';
 import { MenuItem } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
+import { AvatarModule } from 'primeng/avatar';
 import { RippleModule } from 'primeng/ripple';
 import { TooltipModule } from 'primeng/tooltip';
 import { filter } from 'rxjs';
 
 import { TokenService } from '../../auth/token-service';
+import { AuthService } from '../../../features/auth/services/auth-service';
+import { UserProfile } from '../../../features/auth/types/user-profile';
 
 @Component({
   selector: 'app-protected-layout',
   imports: [
     ButtonModule,
+    AvatarModule,
     RippleModule,
     TooltipModule,
     RouterOutlet,
@@ -28,10 +32,12 @@ import { TokenService } from '../../auth/token-service';
   ],
   templateUrl: './protected-layout.html',
 })
-export class ProtectedLayout {
+export class ProtectedLayout implements OnInit {
   isCollapsed = signal(false);
   currentPageName = signal('Dashboard');
+  profile = signal<UserProfile | null>(null);
   private tokenService = inject(TokenService);
+  private authService = inject(AuthService);
   private router = inject(Router);
 
   private pageNameMap: { [key: string]: string } = {
@@ -63,8 +69,20 @@ export class ProtectedLayout {
     this.isCollapsed.set(!this.isCollapsed());
   }
 
+  ngOnInit(): void {
+    this.authService.getProfile().subscribe({
+      next: (response) => {
+        if (response.success) {
+          this.profile.set(response.data);
+          this.tokenService.setUserName(response.data.name);
+          this.tokenService.setUserEmail(response.data.email);
+        }
+      },
+    });
+  }
+
   logout() {
-    this.tokenService.removeToken();
+    this.tokenService.clearAll();
     this.router.navigate(['/auth/login']);
   }
 }

@@ -12,7 +12,7 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
   return next(req).pipe(
     catchError((error: HttpErrorResponse) => {
       if (error.status === 401) {
-        tokenService.removeToken();
+        tokenService.clearAll();
         router.navigate(['/auth/login']);
       }
       return throwError(() => error);

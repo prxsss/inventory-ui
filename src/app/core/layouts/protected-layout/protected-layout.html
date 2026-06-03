@@ -76,9 +76,21 @@
   <div class="flex h-full flex-1 flex-col overflow-hidden">
     <!-- Top Navbar -->
     <header
-      class="dark:bg-surface-900 border-surface-200 dark:border-surface-800 flex h-16 shrink-0 items-center border-b bg-white px-6"
+      class="dark:bg-surface-900 border-surface-200 dark:border-surface-800 flex h-16 shrink-0 items-center justify-between border-b bg-white px-6"
     >
       <h1 class="text-xl font-semibold">{{ currentPageName() }}</h1>
+
+      @if (profile(); as profile) {
+        <div class="flex items-center gap-3">
+          <p-avatar [label]="profile.name.charAt(0).toUpperCase()" shape="circle" size="normal" />
+          <div class="hidden sm:block">
+            <p class="text-sm leading-tight font-medium">{{ profile.name }}</p>
+            <p class="text-surface-500 dark:text-surface-400 text-xs leading-tight">
+              {{ profile.email }}
+            </p>
+          </div>
+        </div>
+      }
     </header>
 
     <!-- Page Content Container -->

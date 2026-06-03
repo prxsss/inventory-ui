@@ -12,7 +12,25 @@ export class TokenService {
     localStorage.setItem('token', token);
   }
 
-  removeToken(): void {
+  getUserName(): string | null {
+    return localStorage.getItem('userName');
+  }
+
+  setUserName(name: string): void {
+    localStorage.setItem('userName', name);
+  }
+
+  getUserEmail(): string | null {
+    return localStorage.getItem('userEmail');
+  }
+
+  setUserEmail(email: string): void {
+    localStorage.setItem('userEmail', email);
+  }
+
+  clearAll(): void {
     localStorage.removeItem('token');
+    localStorage.removeItem('userName');
+    localStorage.removeItem('userEmail');
   }
 }

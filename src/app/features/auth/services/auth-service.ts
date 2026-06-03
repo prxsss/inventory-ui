@@ -5,6 +5,7 @@ import { ApiResponse } from '../../../shared/types/api/api-response';
 import { AuthResponse } from '../types/auth-response';
 import { LoginRequest } from '../types/login-request';
 import { RegisterRequest } from '../types/register-request';
+import { UserProfile } from '../types/user-profile';
 import { environment } from '../../../../environments/environment.development';
 import { Observable } from 'rxjs';
 
@@ -23,5 +24,9 @@ export class AuthService {
       `${environment.apiUrl}/auth/register`,
       payload,
     );
+  }
+
+  getProfile(): Observable<ApiResponse<UserProfile>> {
+    return this.http.get<ApiResponse<UserProfile>>(`${environment.apiUrl}/auth/profile`);
   }
 }
