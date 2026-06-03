@@ -24,6 +24,20 @@ export class StocksService {
     );
   }
 
+  getHistoryByProductId(
+    productId: number,
+    params?: SearchParams,
+  ): Observable<ApiResponse<PaginatedResponse<StockTransaction>>> {
+    let httpParams = new HttpParams();
+    if (params?.page != null) httpParams = httpParams.set('page', params.page);
+    if (params?.size != null) httpParams = httpParams.set('size', params.size);
+
+    return this.http.get<ApiResponse<PaginatedResponse<StockTransaction>>>(
+      `${environment.apiUrl}/stocks/history/${productId}`,
+      { params: httpParams },
+    );
+  }
+
   stockIn(request: CreateStockTransactionRequest): Observable<ApiResponse<void>> {
     return this.http.post<ApiResponse<void>>(`${environment.apiUrl}/stocks/in`, request);
   }

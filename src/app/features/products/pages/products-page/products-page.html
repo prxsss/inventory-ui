@@ -33,7 +33,14 @@
       (onDelete)="confirmDelete($event)"
     >
       <ng-template #customCell let-rowData let-col="column">
-        @if (col.field === 'status') {
+        @if (col.field === 'sku') {
+          <a
+            [attr.href]="'/products/' + rowData.id"
+            class="text-primary font-medium hover:underline"
+          >
+            {{ rowData.sku }}
+          </a>
+        } @else if (col.field === 'status') {
           @if (rowData.quantity === 0) {
             <p-tag value="Out of Stock" severity="danger" />
           } @else if (rowData.quantity <= rowData.lowStockThreshold) {

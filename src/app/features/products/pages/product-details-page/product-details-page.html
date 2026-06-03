@@ -1,0 +1,84 @@
+<div class="space-y-6">
+  <p-toast />
+
+  <app-loading-modal [visible]="loading()" message="Loading product..." />
+
+  <div class="flex items-center justify-between">
+    <div class="flex items-center gap-2">
+      <p-button
+        routerLink="/products"
+        icon="pi pi-chevron-left
+"
+        link
+      />
+      <h1 class="text-2xl font-semibold">Product Details</h1>
+    </div>
+    <p-button routerLink="edit" label="Edit" icon="pi pi-pencil" severity="primary" />
+  </div>
+
+  @if (product(); as product) {
+    <p-card>
+      <div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+        <div>
+          <span class="text-muted-color text-sm font-medium">SKU</span>
+          <p class="mt-1 font-medium">{{ product.sku }}</p>
+        </div>
+        <div>
+          <span class="text-muted-color text-sm font-medium">Name</span>
+          <p class="mt-1 font-medium">{{ product.name }}</p>
+        </div>
+        <div>
+          <span class="text-muted-color text-sm font-medium">Category</span>
+          <p class="mt-1 font-medium">{{ product.categoryName }}</p>
+        </div>
+        <div>
+          <span class="text-muted-color text-sm font-medium">Price</span>
+          <p class="mt-1 font-medium">{{ product.price | number: '1.2-2' }}</p>
+        </div>
+        <div>
+          <span class="text-muted-color text-sm font-medium">Quantity</span>
+          <p class="mt-1 font-medium">{{ product.quantity }}</p>
+        </div>
+        <div>
+          <span class="text-muted-color text-sm font-medium">Low Stock Threshold</span>
+          <p class="mt-1 font-medium">{{ product.lowStockThreshold }}</p>
+        </div>
+        <div>
+          <span class="text-muted-color text-sm font-medium">Description</span>
+          <p class="mt-1 font-medium">{{ product.description ?? '—' }}</p>
+        </div>
+        <div>
+          <span class="text-muted-color text-sm font-medium">Created At</span>
+          <p class="mt-1 font-medium">{{ product.createdAt | date }}</p>
+        </div>
+        <div>
+          <span class="text-muted-color text-sm font-medium">Updated At</span>
+          <p class="mt-1 font-medium">{{ product.updatedAt | date }}</p>
+        </div>
+      </div>
+    </p-card>
+
+    <p-card header="Stock History">
+      <app-data-table
+        [columns]="stockHistoryColumns"
+        [data]="stockHistory()"
+        [first]="first()"
+        [rows]="rows()"
+        [totalRecords]="totalRecords()"
+        [loading]="loadingHistory()"
+        [showActions]="false"
+        (onLazyLoad)="onLazyLoad($event)"
+      >
+        <ng-template #customCell let-rowData let-col="column">
+          @if (col.field === 'type') {
+            @if (rowData.type === 'IN') {
+              <p-tag value="IN" severity="success" />
+            } @else {
+              <p-tag value="OUT" severity="danger" />
+            }
+          }
+        </ng-template>
+      </app-data-table>
+    </p-card>
+  }
+</div>

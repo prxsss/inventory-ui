@@ -57,7 +57,7 @@ export class ProductsPage implements OnInit {
   private destroyRef = inject(DestroyRef);
 
   tableColumns: TableColumn[] = [
-    { field: 'sku', header: 'SKU', type: 'text', sortable: true },
+    { field: 'sku', header: 'SKU', type: 'custom', sortable: true },
     { field: 'name', header: 'Name', type: 'text', sortable: true },
     { field: 'categoryName', header: 'Category', type: 'text', sortable: true },
     { field: 'price', header: 'Price', type: 'number', sortable: true, align: 'right' },
