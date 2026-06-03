@@ -1,59 +1,222 @@
-# InventoryUi
+# Inventory Management UI
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.11.
+Inventory Management UI built with Angular.
 
-## Development server
+## Screenshots
 
-To start a local development server, run:
+### Login Page
+
+![](public/screenshots/login.jpeg)
+
+### Dashboard
+
+![](public/screenshots/dashboard.jpeg)
+
+### Product Management
+
+![](public/screenshots/products.jpeg)
+
+### Category Management
+
+![](public/screenshots/categories.jpeg)
+
+### Stock Transactions
+
+![](public/screenshots/stocks.jpeg)
+
+## Features
+
+### Authentication
+
+- JWT Authentication
+- Login & Register
+- Route Guards
+- HTTP Interceptors
+- Protected Routes
+
+### Dashboard
+
+- Inventory Summary Cards
+- Low Stock Monitoring
+- Recent Stock Transactions
+
+### Product Management
+
+- Product Listing
+- Product Search
+- Product Details & Stock Tracking
+- Pagination
+- Sorting
+- Create Product
+- Edit Product
+- Delete Product
+
+### Category Management
+
+- Category Listing
+- Category Search
+- Pagination
+- Create Category
+- Edit Category
+- Delete Category
+
+### Stock Management
+
+- Stock In
+- Stock Out
+- Transaction History
+- Pagination
+
+### Reporting
+
+- Low Stock Products
+
+### User Experience
+
+- Responsive Design
+- Loading States
+- Empty States
+- Toast Notifications
+- Confirmation Dialogs
+- Form Validation
+
+## Tech Stack
+
+### Frontend
+
+- Angular
+- TypeScript
+- RxJS
+- Angular Router
+- Reactive Forms
+- PrimeNG
+- Tailwind CSS
+
+### Backend
+
+- Spring Boot
+- Spring Security
+- JWT Authentication
+
+### Database
+
+- PostgreSQL
+
+## Architecture
+
+```text
+┌─────────────────┐
+│ Angular UI      │
+└────────┬────────┘
+         │ REST API
+         ▼
+┌─────────────────┐
+│ Spring Boot API │
+└────────┬────────┘
+         │
+         ▼
+┌─────────────────┐
+│ PostgreSQL      │
+└─────────────────┘
+```
+
+## Project Structure
+
+```text
+src/app
+├── core
+│   ├── auth
+│   ├── guards
+│   ├── interceptors
+│   ├── layouts
+│   └── services
+│
+├── shared
+│   ├── components
+│   ├── types
+│
+├── features
+│   ├── auth
+│   ├── categories
+│   ├── dashboard
+│   ├── not-found
+│   ├── products
+│   ├── reports
+│   └── stocks
+│
+└── app.routes.ts
+```
+
+## API Integration
+
+This frontend application consumes a Spring Boot REST API for:
+
+- Authentication
+- Product Management
+- Category Management
+- Stock Transactions
+- Dashboard Statistics
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js 22+
+- npm 10+
+- Angular CLI
+- Running backend API → [inventory-api](https://github.com/prxsss/inventory-api)
+
+### Clone Repository
+
+```bash
+git clone https://github.com/prxsss/inventory-ui.git
+cd inventory-ui
+```
+
+### Install Dependencies
+
+```bash
+npm install
+```
+
+### Configure Environment
+
+Create `src/environments/environment.ts`:
+
+```typescript
+export const environment = {
+  apiUrl: 'http://localhost:8080/api',
+};
+```
+
+### Start Development Server
 
 ```bash
 ng serve
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+Application will be available at:
 
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
+```text
+http://localhost:4200
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
+## Production Build
 
 ```bash
 ng build
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+Build output:
 
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
-
-```bash
-ng test
+```text
+dist/
 ```
 
-## Running end-to-end tests
+## Future Improvements
 
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+- Role-Based Access Control (RBAC)
+- Export Reports (CSV/PDF)
+- Advanced Filters
+- Audit Logs
+- Inventory Analytics Dashboard
