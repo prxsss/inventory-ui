@@ -47,7 +47,7 @@ export class ProtectedLayout {
     { label: 'Products', icon: 'pi pi-box', routerLink: '/products' },
     { label: 'Categories', icon: 'pi pi-tag', routerLink: '/categories' },
     { label: 'Stocks', icon: 'pi pi-shopping-cart', routerLink: '/stocks' },
-    { label: 'Reports', icon: 'pi pi-file-pdf', routerLink: '/reports' },
+    { label: 'Reports', icon: 'pi pi-chart-bar', routerLink: '/reports' },
   ];
 
   constructor() {

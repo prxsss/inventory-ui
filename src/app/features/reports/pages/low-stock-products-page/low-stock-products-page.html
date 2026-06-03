@@ -1,0 +1,24 @@
+<div class="space-y-6">
+  <div class="flex items-center gap-2">
+    <p-button
+      routerLink="/reports"
+      icon="pi pi-chevron-left
+"
+      link
+    />
+    <h1 class="text-2xl font-semibold">Low Stock Products</h1>
+  </div>
+
+  <p-card>
+    <app-data-table
+      [columns]="tableColumns"
+      [data]="lowStockProducts()"
+      [first]="first()"
+      [rows]="rows()"
+      [totalRecords]="totalRecords()"
+      [loading]="loading()"
+      [showActions]="false"
+      (onLazyLoad)="onLazyLoad($event)"
+    />
+  </p-card>
+</div>
