@@ -14,6 +14,7 @@ export class DataTable<T> {
   // Data & Structure
   columns = input.required<TableColumn[]>();
   data = input.required<T[]>();
+  showActions = input(true);
 
   // Add a content child for custom cell templates from the parent component
   customCellTemplate = contentChild<TemplateRef<any>>('customCell');

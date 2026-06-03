@@ -1,0 +1,49 @@
+<div class="space-y-6">
+  <div class="flex items-center justify-between">
+    <h1 class="text-2xl font-semibold">Stock Transactions</h1>
+    <!-- <p-button label="Add" icon="pi pi-plus" severity="primary" (onClick)="navigateToCreate()" /> -->
+    <div class="flex gap-2">
+      <p-button
+        label="Stock Out"
+        icon="pi pi-minus"
+        severity="secondary"
+        (onClick)="showStockOutDialog()"
+      />
+      <p-button
+        label="Stock In"
+        icon="pi pi-plus"
+        severity="primary"
+        (onClick)="showStockInDialog()"
+      />
+    </div>
+  </div>
+
+  <p-card>
+    <app-data-table
+      [columns]="tableColumns"
+      [data]="stocks()"
+      [first]="first()"
+      [rows]="rows()"
+      [totalRecords]="totalRecords()"
+      [loading]="loading()"
+      [showActions]="false"
+      (onLazyLoad)="onLazyLoad($event)"
+    >
+      <ng-template #customCell let-rowData let-col="column">
+        @if (col.field === 'type') {
+          <p-tag
+            [value]="rowData.type === 'IN' ? 'Stock In' : 'Stock Out'"
+            [severity]="rowData.type === 'IN' ? 'success' : 'warn'"
+          />
+        }
+      </ng-template>
+    </app-data-table>
+  </p-card>
+
+  <app-stock-form-dialog
+    [(visible)]="dialogVisible"
+    [dialogTitle]="dialogTitle()"
+    [type]="isStockInMode() ? 'IN' : 'OUT'"
+    (onSaveSuccess)="refreshStockTransactions()"
+  />
+</div>

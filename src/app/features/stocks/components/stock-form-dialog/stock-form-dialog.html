@@ -1,0 +1,69 @@
+<p-dialog
+  [(visible)]="visible"
+  [header]="dialogTitle()"
+  [modal]="true"
+  [style]="{ width: '25rem' }"
+  (onHide)="handleHide()"
+>
+  <form [formGroup]="stockForm" (ngSubmit)="onSubmit()">
+    <div class="flex flex-col gap-4 pt-4">
+      <app-product-select
+        [control]="stockForm.controls.productId"
+        [placeholder]="'Select product'"
+        [invalid]="isInvalid('productId') || errorCode() === 'RESOURCE_NOT_FOUND'"
+      />
+      @if (isInvalid('productId')) {
+        <p-message severity="error" variant="simple"> Product is required. </p-message>
+      }
+      @if (errorCode() === 'RESOURCE_NOT_FOUND') {
+        <p-message severity="error" variant="simple"> Selected product not found. </p-message>
+      }
+
+      <div class="flex flex-col gap-1">
+        <label for="quantity" class="font-medium">Quantity</label>
+        <p-inputNumber
+          id="quantity"
+          formControlName="quantity"
+          [min]="1"
+          [showButtons]="true"
+          [invalid]="isInvalid('quantity') || errorCode() === 'INSUFFICIENT_STOCK'"
+        />
+        @if (isInvalid('quantity')) {
+          <p-message severity="error" variant="simple"> Quantity must be at least 1. </p-message>
+        }
+        @if (errorCode() === 'INSUFFICIENT_STOCK') {
+          <p-message severity="error" variant="simple"
+            >Not enough stock available for the selected product.</p-message
+          >
+        }
+      </div>
+
+      <div class="flex flex-col gap-1">
+        <label for="note" class="font-medium">Note (optional)</label>
+        <textarea
+          id="note"
+          pInputTextarea
+          formControlName="note"
+          class="w-full"
+          rows="3"
+        ></textarea>
+      </div>
+      <div class="flex justify-end gap-2 pt-4">
+        <p-button
+          type="button"
+          label="Cancel"
+          severity="secondary"
+          variant="outlined"
+          (onClick)="visible.set(false)"
+        />
+        <p-button
+          type="submit"
+          label="Save"
+          severity="primary"
+          [loading]="loading()"
+          [disabled]="loading()"
+        />
+      </div>
+    </div>
+  </form>
+</p-dialog>
