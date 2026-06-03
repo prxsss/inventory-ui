@@ -1,18 +1,91 @@
-<div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-  @for (card of statCards(); track card.label) {
-    <p-card class="shadow-sm" [pt]="cardPt">
-      <div class="flex items-center gap-3">
-        <div
-          class="flex h-12 w-12 items-center justify-center rounded-lg"
-          [class]="card.colorClass"
+<div class="space-y-6">
+  <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+    @for (card of statCards(); track card.label) {
+      <p-card class="shadow-sm" [pt]="cardPt">
+        <div class="flex items-center gap-3">
+          <div
+            class="flex h-12 w-12 items-center justify-center rounded-lg"
+            [class]="card.colorClass"
+          >
+            <i [class]="card.icon + ' text-2xl'"></i>
+          </div>
+          <div>
+            <p class="text-muted-color text-sm">{{ card.label }}</p>
+            <p class="text-2xl font-semibold">{{ card.value }}</p>
+          </div>
+        </div>
+      </p-card>
+    }
+  </div>
+
+  <div class="grid grid-cols-8 gap-6">
+    <p-card class="col-span-5">
+      <div class="flex items-center justify-between">
+        <h2 class="text-lg font-semibold">Low Stock Products</h2>
+        <a
+          routerLink="/reports/low-stock"
+          class="cursor-pointer text-sm text-blue-600 underline hover:text-blue-800"
         >
-          <i [class]="card.icon + ' text-2xl'"></i>
-        </div>
-        <div>
-          <p class="text-muted-color text-sm">{{ card.label }}</p>
-          <p class="text-2xl font-semibold">{{ card.value }}</p>
-        </div>
+          View All
+        </a>
       </div>
+      <p-table [value]="lowStockItems()" stripedRows [tableStyle]="{ 'min-width': '40rem' }">
+        <ng-template pTemplate="header">
+          <tr>
+            <th>Product Name</th>
+            <th class="text-right">Quantity</th>
+            <th class="text-right">Low Stock Threshold</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData>
+          <tr>
+            <td class="font-medium">{{ rowData.name }}</td>
+            <td class="text-right font-medium">{{ rowData.quantity }}</td>
+            <td class="text-right font-medium">{{ rowData.lowStockThreshold }}</td>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+          <tr>
+            <td colspan="3" class="text-muted-color py-8 text-center">No low stock products.</td>
+          </tr>
+        </ng-template>
+      </p-table>
     </p-card>
-  }
+
+    <p-card class="col-span-3">
+      <div class="flex items-center justify-between">
+        <h2 class="text-lg font-semibold">Recent Transactions</h2>
+        <a
+          routerLink="/stocks"
+          class="cursor-pointer text-sm text-blue-600 underline hover:text-blue-800"
+        >
+          View All
+        </a>
+      </div>
+      <p-table [value]="recentTransactions()" stripedRows [tableStyle]="{ 'min-width': '20rem' }">
+        <ng-template pTemplate="header">
+          <tr>
+            <th>Product</th>
+            <th>Type</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData>
+          <tr>
+            <td class="font-medium">{{ rowData.productName }}</td>
+            <td>
+              <p-tag
+                [value]="rowData.type === 'IN' ? 'Stock In' : 'Stock Out'"
+                [severity]="rowData.type === 'IN' ? 'success' : 'warn'"
+              />
+            </td>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+          <tr>
+            <td colspan="2" class="text-muted-color py-8 text-center">No recent transactions.</td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </p-card>
+  </div>
 </div>
