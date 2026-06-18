@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { ApiResponse } from '../../../shared/types/api/api-response';
 import { PaginatedResponse } from '../../../shared/types/api/paginated-response';
 import { CreateStockTransactionRequest, StockTransaction } from '../types/stock-transaction';
-import { environment } from '../../../../environments/environment.development';
+import { environment } from '../../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',

@@ -6,7 +6,7 @@ import { ApiResponse } from '../../../shared/types/api/api-response';
 import { PaginatedResponse } from '../../../shared/types/api/paginated-response';
 import { SearchParams } from '../../../shared/types/api/search-params';
 import { Category, SaveCategoryRequest } from '../types/category';
-import { environment } from '../../../../environments/environment.development';
+import { environment } from '../../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',

@@ -6,7 +6,7 @@ import { AuthResponse } from '../types/auth-response';
 import { LoginRequest } from '../types/login-request';
 import { RegisterRequest } from '../types/register-request';
 import { UserProfile } from '../types/user-profile';
-import { environment } from '../../../../environments/environment.development';
+import { environment } from '../../../../environments/environment';
 import { Observable } from 'rxjs';
 
 @Injectable({

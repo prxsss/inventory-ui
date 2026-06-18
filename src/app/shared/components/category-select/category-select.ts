@@ -14,7 +14,7 @@ import { SkeletonModule } from 'primeng/skeleton';
 import { ButtonModule } from 'primeng/button';
 import { CategoryOption } from '../../types/category-option';
 import { ApiResponse } from '../../types/api/api-response';
-import { environment } from '../../../../environments/environment.development';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-category-select',

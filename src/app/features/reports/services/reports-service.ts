@@ -4,7 +4,7 @@ import { ApiResponse } from '../../../shared/types/api/api-response';
 import { PaginatedResponse } from '../../../shared/types/api/paginated-response';
 import { LowStockProduct } from '../types/low-stock-product';
 import { Observable } from 'rxjs';
-import { environment } from '../../../../environments/environment.development';
+import { environment } from '../../../../environments/environment';
 import { SearchParams } from '../../../shared/types/api/search-params';
 
 @Injectable({

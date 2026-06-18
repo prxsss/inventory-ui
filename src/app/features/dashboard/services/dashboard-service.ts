@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 
 import { ApiResponse } from '../../../shared/types/api/api-response';
 import { InventorySummary } from '../types/inventory-summary';
-import { environment } from '../../../../environments/environment.development';
+import { environment } from '../../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
