@@ -5,6 +5,7 @@ export interface StockHistory {
   type: StockTransactionType;
   quantity: number;
   note: string | null;
+  createdBy: string;
   createdAt: string;
   updatedAt: string;
 }

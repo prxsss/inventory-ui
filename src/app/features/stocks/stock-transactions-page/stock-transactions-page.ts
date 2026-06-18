@@ -40,6 +40,7 @@ export class StockTransactionsPage implements OnInit {
     { field: 'type', header: 'Type', type: 'custom', sortable: false, align: 'center' },
     { field: 'quantity', header: 'Quantity', type: 'number', sortable: false, align: 'right' },
     { field: 'note', header: 'Note', type: 'text', sortable: false },
+    { field: 'createdBy', header: 'Created By', type: 'text', sortable: false },
   ];
   stocks = signal<StockTransaction[]>([]);
 
